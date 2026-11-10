@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import { useBuilds } from '../hooks/useBuilds'
 import championService from '../services/championService'
 import PATCH_ITEMS from '../data/patch16_22_items'
-import RUNE_TREES from '../data/runeTrees'
+import RunePageSelector from '../components/RunePageSelector'
 import { getItemIconUrl } from '../utils/itemHelper'
-import { getRuneIconUrl, parseRunes } from '../utils/runeHelper'
+import { getRuneIconUrl, parseRunes, parseRuneSections } from '../utils/runeHelper'
 import './BuildsPage.css'
 
 function ItemIcon({ name, size = 22 }) {
@@ -53,21 +53,8 @@ function BuildModal({ initial, onClose, onSave, availableItems }) {
   const [form, setForm] = useState(initial || BLANK)
   const [itemText, setItemText] = useState('')
   const [errors, setErrors] = useState({})
-  const [activeTreeIndex, setActiveTreeIndex] = useState(0)
 
   const patch = (k, v) => setForm((f) => ({ ...f, [k]: v }))
-
-  const selectedRunes = parseRunes(form.runes)
-
-  const toggleRune = (runeName) => {
-    let next
-    if (selectedRunes.includes(runeName)) {
-      next = selectedRunes.filter((r) => r !== runeName)
-    } else {
-      next = [...selectedRunes, runeName]
-    }
-    patch('runes', next.join(' - '))
-  }
 
   const validate = () => {
     const e = {}
@@ -91,7 +78,6 @@ function BuildModal({ initial, onClose, onSave, availableItems }) {
   }
 
   const isEditing = !!initial?.id
-  const activeTree = RUNE_TREES[activeTreeIndex] || RUNE_TREES[0]
 
   return (
     <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
@@ -179,100 +165,12 @@ function BuildModal({ initial, onClose, onSave, availableItems }) {
             )}
           </div>
 
-          {/* RUNES SELECTION (NO TYPING - SELECT FROM OFFICIAL TREES) */}
+          {/* RUNES SELECTION (IN-GAME 2 TREES + SHARDS PICKER) */}
           <div className="form-group">
-            <div className="runes-section-header">
-              <label style={{ margin: 0 }}>
-                Runes <span style={{ color: 'var(--text-muted)', fontFamily: 'inherit', textTransform: 'none', letterSpacing: 0 }}>({selectedRunes.length} dipilih)</span>
-              </label>
-              {selectedRunes.length > 0 && (
-                <button
-                  type="button"
-                  className="btn btn-ghost btn-xs"
-                  onClick={() => patch('runes', '')}
-                  style={{ fontSize: 10, padding: '2px 8px' }}
-                >
-                  Reset Runes
-                </button>
-              )}
-            </div>
-
-            {/* Selected runes pills (just like items!) */}
-            <div className="runes-tag-list">
-              {selectedRunes.length === 0 ? (
-                <div className="runes-none-selected">
-                  Belum ada rune yang dipilih. Klik rune pada pohon di bawah:
-                </div>
-              ) : (
-                selectedRunes.map((rune) => (
-                  <span key={rune} className="rune-pill">
-                    <RuneIcon name={rune} size={18} />
-                    <span>{rune}</span>
-                    <button
-                      type="button"
-                      className="item-pill-remove"
-                      onClick={() => toggleRune(rune)}
-                      title={`Hapus ${rune}`}
-                    >✕</button>
-                  </span>
-                ))
-              )}
-            </div>
-
-            {/* Tree Picker with 4 Slots per path */}
-            <div className="rune-picker-card">
-              {/* 5 Tree Tabs */}
-              <div className="rune-tree-tabs">
-                {RUNE_TREES.map((tree, idx) => (
-                  <button
-                    key={tree.name}
-                    type="button"
-                    className={`rune-tree-tab ${activeTreeIndex === idx ? 'active ' + tree.name.toLowerCase() : ''}`}
-                    onClick={() => setActiveTreeIndex(idx)}
-                  >
-                    <img
-                      src={`https://ddragon.leagueoflegends.com/cdn/img/${tree.icon}`}
-                      alt={tree.name}
-                      className="rune-tree-tab-icon"
-                    />
-                    <span>{tree.name}</span>
-                  </button>
-                ))}
-              </div>
-
-              {/* 4 Slots / Tiers for the active tree */}
-              <div className="rune-slots-wrapper">
-                {activeTree.slots.map((slotRunes, slotIdx) => (
-                  <div key={slotIdx} className="rune-slot-row">
-                    <div className="rune-slot-tag">
-                      {slotIdx === 0 ? 'Keystone' : `Slot ${slotIdx}`}
-                    </div>
-                    <div className="rune-slot-options">
-                      {slotRunes.map((r) => {
-                        const isSelected = selectedRunes.includes(r.name)
-                        return (
-                          <button
-                            key={r.name}
-                            type="button"
-                            className={`rune-choice-btn ${isSelected ? 'selected' : ''} ${slotIdx === 0 ? 'keystone-choice' : ''}`}
-                            onClick={() => toggleRune(r.name)}
-                            title={r.name}
-                          >
-                            <img
-                              src={`https://ddragon.leagueoflegends.com/cdn/img/${r.icon}`}
-                              alt={r.name}
-                              className="rune-choice-img"
-                              loading="lazy"
-                            />
-                            <span className="rune-choice-name">{r.name}</span>
-                          </button>
-                        )
-                      })}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <RunePageSelector
+              value={form.runes}
+              onChange={(val) => patch('runes', val)}
+            />
           </div>
 
           <div className="form-group">
@@ -406,8 +304,17 @@ export default function BuildsPage() {
                   <span className="build-entry-role">{b.role}</span>
                   {b.runes && (
                     <div className="build-entry-runes">
-                      {parseRunes(b.runes).map((rune, idx) => (
-                        <span key={idx} className="build-rune-pill" title={rune}>
+                      {parseRuneSections(b.runes).primary.map((rune, idx) => (
+                        <span key={'p-' + idx} className="build-rune-pill primary" title={rune}>
+                          <RuneIcon name={rune} size={16} />
+                          <span>{rune}</span>
+                        </span>
+                      ))}
+                      {parseRuneSections(b.runes).secondary.length > 0 && (
+                        <span className="build-runes-separator">/</span>
+                      )}
+                      {parseRuneSections(b.runes).secondary.map((rune, idx) => (
+                        <span key={'s-' + idx} className="build-rune-pill secondary" title={rune}>
                           <RuneIcon name={rune} size={16} />
                           <span>{rune}</span>
                         </span>

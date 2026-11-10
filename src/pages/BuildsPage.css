@@ -195,6 +195,25 @@
   flex-shrink: 0;
 }
 
+.build-runes-separator {
+  color: rgba(200, 155, 60, 0.6);
+  font-weight: 800;
+  font-size: 13px;
+  padding: 0 2px;
+  align-self: center;
+}
+
+.build-rune-pill.secondary {
+  color: #00d4ff;
+  border-color: rgba(0, 212, 255, 0.4);
+  background: rgba(0, 212, 255, 0.08);
+}
+
+.build-rune-pill.secondary:hover {
+  border-color: #00d4ff;
+  background: rgba(0, 212, 255, 0.2);
+}
+
 /* ===== INTERACTIVE RUNE PICKER IN MODAL ===== */
 .build-modal-wide {
   max-width: 680px !important;

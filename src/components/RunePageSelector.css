@@ -1,0 +1,239 @@
+.rune-page-container {
+  background: #171626;
+  border: 1px solid rgba(200, 155, 60, 0.25);
+  border-radius: 8px;
+  padding: 24px;
+  color: #fff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  margin-top: 6px;
+}
+
+.rune-page-title {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #c8aa6e;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.rune-page-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+}
+
+@media (max-width: 640px) {
+  .rune-page-columns {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+.rune-col {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Tree Header & Selector */
+.tree-header-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 12px;
+}
+
+.tree-selector-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.tree-active-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.tree-select {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(200, 155, 60, 0.3);
+  border-radius: 4px;
+  color: #e5c158;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 6px 12px;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tree-select:hover,
+.tree-select:focus {
+  border-color: #f0e6d2;
+  outline: none;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.tree-select option {
+  background: #171626;
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Rune Slots & Rows */
+.rune-slots-col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.rune-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 18px;
+  min-height: 44px;
+}
+
+/* Circular Rune Buttons */
+.rune-circle-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.rune-circle-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  transition: all 0.2s ease;
+}
+
+/* Keystone sizing */
+.keystone-btn .rune-circle-img {
+  width: 44px;
+  height: 44px;
+}
+
+/* Dimmed / Inactive */
+.rune-circle-btn.dimmed .rune-circle-img {
+  filter: grayscale(100%) brightness(0.45);
+  opacity: 0.35;
+}
+
+.rune-circle-btn.dimmed:hover .rune-circle-img {
+  filter: grayscale(20%) brightness(0.85);
+  opacity: 0.85;
+  transform: scale(1.1);
+}
+
+/* Active Primary Rune */
+.primary-col .rune-circle-btn.active .rune-circle-img {
+  filter: drop-shadow(0 0 8px rgba(200, 170, 110, 0.6));
+  transform: scale(1.08);
+}
+
+.primary-col .rune-circle-btn.active::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid #c8aa6e;
+  box-shadow: 0 0 12px rgba(200, 170, 110, 0.5);
+  pointer-events: none;
+}
+
+/* Active Keystone special fiery ring */
+.primary-col .keystone-btn.active::before {
+  inset: -5px;
+  border: 2.5px solid #f0e6d2;
+  box-shadow: 0 0 16px rgba(240, 230, 210, 0.7), inset 0 0 8px rgba(200, 155, 60, 0.4);
+}
+
+/* Active Secondary Rune (Teal / Cyan Ring) */
+.secondary-col .rune-circle-btn.active .rune-circle-img {
+  filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.6));
+  transform: scale(1.08);
+}
+
+.secondary-col .rune-circle-btn.active::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid #00d4ff;
+  box-shadow: 0 0 12px rgba(0, 212, 255, 0.5);
+  pointer-events: none;
+}
+
+/* Stat Shards Section */
+.shards-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+  padding-top: 16px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.shards-row {
+  gap: 16px;
+  min-height: 28px;
+}
+
+.shard-circle-btn {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.shard-circle-img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: contain;
+  transition: all 0.2s;
+}
+
+.shard-circle-btn.dimmed .shard-circle-img {
+  filter: grayscale(100%) brightness(0.4);
+  opacity: 0.35;
+}
+
+.shard-circle-btn.dimmed:hover .shard-circle-img {
+  filter: grayscale(30%) brightness(0.85);
+  opacity: 0.8;
+  transform: scale(1.1);
+}
+
+.shard-circle-btn.active {
+  border-color: #e5c158;
+  background: rgba(229, 193, 88, 0.15);
+  box-shadow: 0 0 8px rgba(229, 193, 88, 0.4);
+}
+
+.shard-circle-btn.active .shard-circle-img {
+  filter: drop-shadow(0 0 4px rgba(229, 193, 88, 0.6));
+}
