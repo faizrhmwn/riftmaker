@@ -160,9 +160,94 @@
 }
 
 .build-entry-runes {
+  display: inline-flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.build-rune-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   font-size: 11px;
-  color: var(--blue-hex);
-  font-style: italic;
+  font-weight: 600;
+  color: #70d6ff;
+  background: rgba(0, 180, 216, 0.08);
+  border: 1px solid rgba(0, 180, 216, 0.35);
+  padding: 2px 7px 2px 4px;
+  border-radius: 12px;
+  transition: all 0.15s;
+}
+
+.build-rune-pill:hover {
+  border-color: rgba(0, 220, 255, 0.7);
+  background: rgba(0, 180, 216, 0.18);
+  transform: translateY(-1px);
+}
+
+.build-rune-img {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  object-fit: cover;
+  filter: drop-shadow(0 0 2px rgba(0, 180, 216, 0.6));
+  flex-shrink: 0;
+}
+
+/* Quick Keystones Selector in Modal */
+.quick-keystones-wrap {
+  margin-top: 8px;
+}
+
+.quick-keystones-label {
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(200, 155, 60, 0.75);
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.quick-keystones-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.quick-keystone-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 8px 3px 4px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.quick-keystone-chip:hover,
+.quick-keystone-chip.active {
+  background: rgba(0, 180, 216, 0.18);
+  border-color: rgba(0, 220, 255, 0.6);
+  color: #70d6ff;
+  transform: translateY(-1px);
+}
+
+.runes-live-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 8px 10px;
+  background: rgba(1, 10, 19, 0.7);
+  border: 1px dashed rgba(0, 180, 216, 0.35);
+  border-radius: 4px;
 }
 
 .build-entry-notes {

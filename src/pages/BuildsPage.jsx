@@ -3,6 +3,7 @@ import { useBuilds } from '../hooks/useBuilds'
 import championService from '../services/championService'
 import PATCH_ITEMS from '../data/patch16_22_items'
 import { getItemIconUrl } from '../utils/itemHelper'
+import { getRuneIconUrl, parseRunes } from '../utils/runeHelper'
 import './BuildsPage.css'
 
 function ItemIcon({ name, size = 22 }) {
@@ -19,6 +20,28 @@ function ItemIcon({ name, size = 22 }) {
     />
   )
 }
+
+function RuneIcon({ name, size = 18 }) {
+  const iconUrl = getRuneIconUrl(name)
+  if (!iconUrl) return null
+  return (
+    <img
+      src={iconUrl}
+      alt={name}
+      className="build-rune-img"
+      style={{ width: size, height: size }}
+      loading="lazy"
+      onError={(e) => { e.currentTarget.style.display = 'none' }}
+    />
+  )
+}
+
+const POPULAR_KEYSTONES = [
+  'Lethal Tempo', 'Conqueror', 'Press the Attack', 'Fleet Footwork',
+  'Electrocute', 'Dark Harvest', 'Hail of Blades',
+  'First Strike', 'Phase Rush', 'Arcane Comet', 'Summon Aery',
+  'Grasp of the Undying', 'Aftershock'
+]
 
 const ROLES = ['Top', 'Jungle', 'Mid', 'ADC', 'Support']
 
@@ -145,10 +168,52 @@ function BuildModal({ initial, onClose, onSave, availableItems }) {
             <label>Primary Keystone & Runes</label>
             <input
               className="input"
-              placeholder="e.g. Lethal Tempo - Triumph - Legend: Bloodline"
+              placeholder="e.g. Lethal Tempo - Triumph - Legend: Bloodline - Coup de Grace"
               value={form.runes}
               onChange={(e) => patch('runes', e.target.value)}
             />
+            {/* Quick Keystone recommendations */}
+            <div className="quick-keystones-wrap">
+              <span className="quick-keystones-label">Pilih Keystone Cepat:</span>
+              <div className="quick-keystones-grid">
+                {POPULAR_KEYSTONES.map((k) => (
+                  <button
+                    key={k}
+                    type="button"
+                    className={`quick-keystone-chip${form.runes?.includes(k) ? ' active' : ''}`}
+                    onClick={() => {
+                      if (!form.runes) {
+                        patch('runes', k)
+                      } else if (!form.runes.includes(k)) {
+                        const parts = parseRunes(form.runes)
+                        // If first part was an existing keystone, replace it; else prepend
+                        if (POPULAR_KEYSTONES.some(pk => parts[0] === pk)) {
+                          parts[0] = k
+                          patch('runes', parts.join(' - '))
+                        } else {
+                          patch('runes', `${k} - ${form.runes}`)
+                        }
+                      }
+                    }}
+                  >
+                    <RuneIcon name={k} size={15} />
+                    {k}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Live preview */}
+            {form.runes && parseRunes(form.runes).length > 0 && (
+              <div className="runes-live-preview">
+                {parseRunes(form.runes).map((r, i) => (
+                  <span key={i} className="build-rune-pill">
+                    <RuneIcon name={r} size={16} />
+                    <span>{r}</span>
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="form-group">
@@ -280,7 +345,16 @@ export default function BuildsPage() {
                 <div className="build-entry-title">{b.title}</div>
                 <div className="build-entry-meta">
                   <span className="build-entry-role">{b.role}</span>
-                  {b.runes && <span className="build-entry-runes">{b.runes}</span>}
+                  {b.runes && (
+                    <div className="build-entry-runes">
+                      {parseRunes(b.runes).map((rune, idx) => (
+                        <span key={idx} className="build-rune-pill" title={rune}>
+                          <RuneIcon name={rune} size={16} />
+                          <span>{rune}</span>
+                        </span>
+                      ))}
+                    </div>
+                  )}
                   {b.items?.length > 0 && (
                     <div className="build-entry-items">
                       {b.items.map((item) => (
