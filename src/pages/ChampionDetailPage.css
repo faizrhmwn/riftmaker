@@ -1,0 +1,337 @@
+/* ===== CHAMPION DETAIL PAGE ===== */
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-decoration: none;
+  margin-bottom: 24px;
+  transition: color 0.15s;
+}
+.back-link svg { width: 14px; height: 14px; }
+.back-link:hover { color: var(--gold-1); }
+
+/* ===== CINEMATIC HERO BANNER ===== */
+.detail-banner {
+  position: relative;
+  height: 380px;
+  overflow: hidden;
+  margin-bottom: 0;
+  border: 1px solid var(--border-gold);
+  border-bottom: none;
+}
+
+.detail-banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+  filter: brightness(0.5);
+}
+
+.detail-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right, rgba(1,10,19,0.95) 0%, rgba(1,10,19,0.3) 60%, transparent 100%),
+    linear-gradient(to top, rgba(1,10,19,1) 0%, transparent 40%);
+}
+
+.detail-banner-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 36px 36px 0;
+}
+
+.detail-eyebrow {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold-3);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.detail-name {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 52px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--gold-2);
+  line-height: 0.95;
+  margin-bottom: 6px;
+}
+
+.detail-title-line {
+  font-size: 15px;
+  color: var(--text-secondary);
+  font-style: italic;
+  margin-bottom: 14px;
+}
+
+.detail-tags {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+
+/* ===== TABS ===== */
+.detail-tabs-bar {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--border-gold);
+  border-top: none;
+  margin-bottom: 36px;
+  background: rgba(1,10,19,0.9);
+  overflow-x: auto;
+}
+
+.dtab {
+  padding: 14px 24px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  border-right: 1px solid var(--border-gold);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+  position: relative;
+}
+.dtab:last-child { border-right: none; }
+.dtab:hover { color: var(--text-secondary); background: rgba(200,155,60,0.03); }
+.dtab.active {
+  color: var(--gold-1);
+  background: rgba(200,155,60,0.06);
+}
+.dtab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--gold-1);
+}
+
+/* ===== LORE TAB ===== */
+.lore-body {
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--text-secondary);
+  max-width: 700px;
+  font-weight: 300;
+}
+
+/* ===== ABILITIES TAB ===== */
+.ability-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--border-gold);
+}
+
+.ability-row {
+  display: flex;
+  gap: 0;
+  background: var(--dark-1);
+  padding: 20px 24px;
+  transition: background 0.15s;
+  border-left: 3px solid transparent;
+}
+.ability-row:hover {
+  background: rgba(14,31,53,0.6);
+  border-left-color: var(--gold-1);
+}
+
+.ability-icon-wrap {
+  flex-shrink: 0;
+  margin-right: 20px;
+  position: relative;
+  width: 60px;
+}
+
+.ability-img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  display: block;
+  border: 1px solid var(--border-gold);
+  filter: brightness(0.9);
+}
+
+.ability-key-badge {
+  position: absolute;
+  bottom: -1px;
+  left: -1px;
+  background: var(--dark-1);
+  border: 1px solid var(--gold-1);
+  color: var(--gold-1);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 6px;
+  letter-spacing: 0.05em;
+}
+
+.ability-info {}
+.ability-name {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  letter-spacing: 0.03em;
+}
+.ability-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin-bottom: 8px;
+  max-width: 640px;
+}
+.ability-stats {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.ability-stat {
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+.ability-stat strong {
+  color: var(--gold-3);
+  font-weight: 600;
+}
+
+/* ===== STATS TAB ===== */
+.stats-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--border-gold);
+  max-width: 700px;
+}
+
+.stat-entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: var(--dark-1);
+}
+
+.stat-entry-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.stat-entry-val {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--gold-1);
+}
+
+/* ===== SKINS TAB ===== */
+.skins-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 2px;
+  background: var(--border-gold);
+}
+
+.skin-tile {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.skin-tile img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease, filter 0.3s;
+  filter: brightness(0.75);
+}
+.skin-tile:hover img { transform: scale(1.05); filter: brightness(0.95); }
+
+.skin-tile-name {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 24px 12px 10px;
+  background: linear-gradient(to top, rgba(1,10,19,0.9), transparent);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gold-2);
+  letter-spacing: 0.04em;
+}
+
+/* ===== TIPS TAB ===== */
+.tips-block { margin-bottom: 32px; }
+
+.tips-heading {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tips-heading::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-gold);
+}
+.tips-ally { color: var(--success); }
+.tips-enemy { color: var(--danger); }
+
+.tip-line {
+  display: flex;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.tip-line::before {
+  content: '—';
+  color: var(--border-gold-bright);
+  flex-shrink: 0;
+  font-weight: 300;
+}
+
+@media (max-width: 640px) {
+  .detail-name { font-size: 32px; }
+  .detail-banner { height: 260px; }
+  .detail-banner-content { padding: 24px 20px 0; }
+  .stats-layout { grid-template-columns: 1fr; }
+  .ability-row { padding: 14px 16px; }
+}
