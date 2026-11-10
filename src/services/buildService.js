@@ -35,15 +35,23 @@ const DEFAULT_BUILDS = [
   },
 ]
 
-// Seed default builds for a new user
+// Seed default builds for a new user (only once)
 async function seedDefaultBuilds(userId) {
+  const SEED_KEY = `riftmaker_seeded_${userId}`
+  if (localStorage.getItem(SEED_KEY)) return
+
   const { data: existing } = await supabase
     .from('builds')
     .select('id')
     .eq('user_id', userId)
     .limit(1)
 
-  if (existing && existing.length > 0) return
+  if (existing && existing.length > 0) {
+    localStorage.setItem(SEED_KEY, 'true')
+    return
+  }
+
+  localStorage.setItem(SEED_KEY, 'true')
 
   const rows = DEFAULT_BUILDS.map(b => ({
     user_id: userId,
@@ -70,6 +78,7 @@ export async function getBuilds(userId) {
 }
 
 export async function createBuild(userId, build) {
+  localStorage.setItem(`riftmaker_seeded_${userId}`, 'true')
   const { data, error } = await supabase
     .from('builds')
     .insert([{
@@ -88,6 +97,7 @@ export async function createBuild(userId, build) {
 }
 
 export async function updateBuild(userId, id, updates) {
+  localStorage.setItem(`riftmaker_seeded_${userId}`, 'true')
   const { data, error } = await supabase
     .from('builds')
     .update({
@@ -108,6 +118,7 @@ export async function updateBuild(userId, id, updates) {
 }
 
 export async function deleteBuild(userId, id) {
+  localStorage.setItem(`riftmaker_seeded_${userId}`, 'true')
   const { error } = await supabase
     .from('builds')
     .delete()
