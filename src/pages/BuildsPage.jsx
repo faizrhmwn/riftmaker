@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useBuilds } from '../hooks/useBuilds'
 import championService from '../services/championService'
 import PATCH_ITEMS from '../data/patch16_22_items'
@@ -233,12 +233,16 @@ function fmt(iso) {
   return new Date(iso).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
+const LANES = ['All', 'Top', 'Jungle', 'Mid', 'ADC', 'Support']
+
 export default function BuildsPage() {
   const { builds, createBuild, updateBuild, deleteBuild } = useBuilds()
   const [modal, setModal]     = useState(null)
   const [delTarget, setDel]   = useState(null)
   const [toast, setToast]     = useState('')
   const [itemsList, setItemsList] = useState(PATCH_ITEMS)
+  const [selectedLane, setSelectedLane] = useState('All')
+  const [search, setSearch]   = useState('')
 
   useEffect(() => {
     championService.getAllItems().then((liveItems) => {
@@ -247,6 +251,18 @@ export default function BuildsPage() {
       }
     })
   }, [])
+
+  const filteredBuilds = useMemo(() => {
+    return builds.filter((b) => {
+      const matchLane = selectedLane === 'All' || b.role?.toLowerCase() === selectedLane.toLowerCase()
+      const q = search.toLowerCase().trim()
+      const matchSearch = !q ||
+        b.champion?.toLowerCase().includes(q) ||
+        b.title?.toLowerCase().includes(q) ||
+        b.notes?.toLowerCase().includes(q)
+      return matchLane && matchSearch
+    })
+  }, [builds, selectedLane, search])
 
   const flash = (msg) => { setToast(msg); setTimeout(() => setToast(''), 3000) }
 
@@ -275,12 +291,52 @@ export default function BuildsPage() {
         <span className="builds-count">
           {builds.length} build{builds.length !== 1 ? 's' : ''} tersimpan · {itemsList.length} items tersedia
         </span>
-        <button className="btn btn-primary" onClick={() => setModal({})}>
+        <button className="btn btn-primary" onClick={() => setModal({ role: selectedLane === 'All' ? 'Mid' : selectedLane })}>
           + Buat Build Baru
         </button>
       </div>
 
-      {/* Empty state */}
+      {/* Lane Filter Tabs & Search Controls */}
+      {builds.length > 0 && (
+        <div className="builds-controls">
+          <div className="builds-search-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16">
+              <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" />
+            </svg>
+            <input
+              className="input builds-search-input"
+              type="text"
+              placeholder="Cari champion atau build..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            {search && (
+              <button type="button" className="search-clear-btn" onClick={() => setSearch('')}>✕</button>
+            )}
+          </div>
+
+          <div className="lane-tabs">
+            {LANES.map((lane) => {
+              const count = lane === 'All'
+                ? builds.length
+                : builds.filter((b) => b.role?.toLowerCase() === lane.toLowerCase()).length
+              return (
+                <button
+                  key={lane}
+                  type="button"
+                  className={`lane-tab ${selectedLane === lane ? 'active' : ''}`}
+                  onClick={() => setSelectedLane(lane)}
+                >
+                  <span>{lane}</span>
+                  <span className="lane-count-badge">{count}</span>
+                </button>
+              )
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Empty state (Total 0 builds) */}
       {builds.length === 0 && (
         <div className="builds-empty">
           <div className="builds-empty-icon"><WrenchIcon /></div>
@@ -292,10 +348,26 @@ export default function BuildsPage() {
         </div>
       )}
 
+      {/* Filter empty state (builds exist, but none match lane/search filter) */}
+      {builds.length > 0 && filteredBuilds.length === 0 && (
+        <div className="builds-empty" style={{ margin: '20px 0' }}>
+          <h2>Tidak Ada Build di Lane {selectedLane}</h2>
+          <p>Belum ada build yang sesuai dengan filter pencarian ini.</p>
+          <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
+            <button className="btn btn-ghost" onClick={() => { setSelectedLane('All'); setSearch('') }}>
+              Reset Filter
+            </button>
+            <button className="btn btn-primary" onClick={() => setModal({ role: selectedLane === 'All' ? 'Mid' : selectedLane })}>
+              + Buat Build {selectedLane === 'All' ? '' : selectedLane}
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Build list */}
-      {builds.length > 0 && (
+      {filteredBuilds.length > 0 && (
         <div className="builds-list">
-          {builds.map((b) => (
+          {filteredBuilds.map((b) => (
             <div key={b.id} className="build-entry">
               <div className="build-entry-main">
                 <div className="build-entry-champ">{b.champion || 'Unknown Champion'}</div>

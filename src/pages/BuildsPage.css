@@ -4,9 +4,115 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 28px;
+  margin-bottom: 20px;
   flex-wrap: wrap;
   gap: 12px;
+}
+
+/* Lane Filter Tabs and Search Bar */
+.builds-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.builds-search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 220px;
+  flex: 1;
+  max-width: 340px;
+}
+
+.builds-search-box svg {
+  position: absolute;
+  left: 12px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.builds-search-input {
+  padding-left: 36px !important;
+  padding-right: 32px !important;
+  height: 38px;
+  font-size: 13px;
+  background: rgba(1, 10, 19, 0.75);
+  border: 1px solid rgba(200, 155, 60, 0.25);
+  border-radius: 4px;
+}
+
+.builds-search-input:focus {
+  border-color: var(--gold-1);
+}
+
+.search-clear-btn {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.search-clear-btn:hover {
+  color: #fff;
+}
+
+.lane-tabs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+}
+
+.lane-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: rgba(1, 10, 19, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  color: var(--text-secondary);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.lane-tab:hover {
+  background: rgba(200, 155, 60, 0.1);
+  border-color: rgba(200, 155, 60, 0.4);
+  color: #fff;
+}
+
+.lane-tab.active {
+  background: rgba(200, 155, 60, 0.18);
+  border-color: var(--gold-1);
+  color: var(--gold-1);
+  box-shadow: 0 0 10px rgba(200, 155, 60, 0.25);
+}
+
+.lane-count-badge {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-muted);
+}
+
+.lane-tab.active .lane-count-badge {
+  background: var(--gold-1);
+  color: #010a13;
 }
 
 .builds-count {
