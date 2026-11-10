@@ -70,7 +70,12 @@ class ChampionService {
     try {
       const data = await ddClient.get(`${base}/data/en_US/item.json`)
       const list = Object.values(data.data)
-        .filter((item) => item.gold && item.gold.purchasable && item.gold.total > 1500)
+        .filter((item) => {
+          if (!item.name || !item.gold) return false
+          const isBoot = item.tags && item.tags.includes('Boots')
+          if (isBoot) return true
+          return item.gold.purchasable && item.gold.total >= 1000
+        })
         .map((item) => item.name)
       return [...new Set(list)].sort()
     } catch (e) {
