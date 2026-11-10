@@ -195,59 +195,205 @@
   flex-shrink: 0;
 }
 
-/* Quick Keystones Selector in Modal */
-.quick-keystones-wrap {
-  margin-top: 8px;
+/* ===== INTERACTIVE RUNE PICKER IN MODAL ===== */
+.build-modal-wide {
+  max-width: 680px !important;
 }
 
-.quick-keystones-label {
-  font-size: 10px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: rgba(200, 155, 60, 0.75);
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 700;
-}
-
-.quick-keystones-grid {
+.runes-section-header {
   display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-}
-
-.quick-keystone-chip {
-  display: inline-flex;
   align-items: center;
-  gap: 5px;
-  font-size: 10px;
-  font-weight: 600;
-  padding: 3px 8px 3px 4px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: all 0.15s;
+  justify-content: space-between;
+  margin-bottom: 6px;
 }
 
-.quick-keystone-chip:hover,
-.quick-keystone-chip.active {
-  background: rgba(0, 180, 216, 0.18);
-  border-color: rgba(0, 220, 255, 0.6);
-  color: #70d6ff;
-  transform: translateY(-1px);
-}
-
-.runes-live-preview {
+.runes-tag-list {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-top: 10px;
-  padding: 8px 10px;
-  background: rgba(1, 10, 19, 0.7);
-  border: 1px dashed rgba(0, 180, 216, 0.35);
+  min-height: 38px;
+  padding: 6px 10px;
+  background: rgba(1, 10, 19, 0.75);
+  border: 1px solid var(--border);
   border-radius: 4px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.runes-none-selected {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.rune-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #70d6ff;
+  background: rgba(0, 180, 216, 0.12);
+  border: 1px solid rgba(0, 180, 216, 0.4);
+  padding: 3px 8px 3px 5px;
+  border-radius: 14px;
+  transition: all 0.15s;
+}
+
+.rune-pill:hover {
+  border-color: rgba(0, 220, 255, 0.8);
+  background: rgba(0, 180, 216, 0.22);
+}
+
+.rune-picker-card {
+  background: rgba(1, 10, 19, 0.9);
+  border: 1px solid rgba(200, 155, 60, 0.25);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.rune-tree-tabs {
+  display: flex;
+  background: rgba(0, 0, 0, 0.45);
+  border-bottom: 1px solid rgba(200, 155, 60, 0.2);
+  overflow-x: auto;
+}
+
+.rune-tree-tab {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 10px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-muted);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.rune-tree-tab:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.rune-tree-tab.active {
+  color: #fff;
+  border-bottom-color: var(--gold-1);
+  background: rgba(200, 155, 60, 0.12);
+}
+
+.rune-tree-tab.active.precision   { border-bottom-color: #c8aa6e; color: #c8aa6e; }
+.rune-tree-tab.active.domination  { border-bottom-color: #e84057; color: #e84057; }
+.rune-tree-tab.active.sorcery     { border-bottom-color: #6996ff; color: #6996ff; }
+.rune-tree-tab.active.resolve     { border-bottom-color: #49c464; color: #49c464; }
+.rune-tree-tab.active.inspiration { border-bottom-color: #49b4c4; color: #49b4c4; }
+
+.rune-tree-tab-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+.rune-slots-wrapper {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.rune-slot-row {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.rune-slot-tag {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: rgba(200, 155, 60, 0.75);
+}
+
+.rune-slot-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+  gap: 6px;
+}
+
+.rune-choice-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+}
+
+.rune-choice-btn:hover {
+  background: rgba(0, 180, 216, 0.12);
+  border-color: rgba(0, 180, 216, 0.4);
+  transform: translateY(-1px);
+}
+
+.rune-choice-btn.selected {
+  background: rgba(0, 180, 216, 0.22);
+  border-color: #00d4ff;
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.25);
+}
+
+.rune-choice-btn.keystone-choice {
+  border-color: rgba(200, 155, 60, 0.3);
+}
+
+.rune-choice-btn.keystone-choice:hover {
+  border-color: var(--gold-1);
+}
+
+.rune-choice-btn.keystone-choice.selected {
+  background: rgba(200, 155, 60, 0.22);
+  border-color: var(--gold-1);
+  box-shadow: 0 0 10px rgba(200, 155, 60, 0.35);
+}
+
+.rune-choice-img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.rune-choice-btn.keystone-choice .rune-choice-img {
+  width: 24px;
+  height: 24px;
+}
+
+.rune-choice-name {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rune-choice-btn.selected .rune-choice-name {
+  color: #fff;
 }
 
 .build-entry-notes {
