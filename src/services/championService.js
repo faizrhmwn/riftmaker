@@ -53,12 +53,14 @@ class ChampionService {
         range: s.rangeBurn,
       })),
       stats: c.stats,
-      skins: (c.skins || []).map((sk) => ({
-        id: sk.id,
-        name: sk.name === 'default' ? c.name : sk.name,
-        num: sk.num,
-        image: `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${c.id}_${sk.num}.jpg`,
-      })),
+      skins: (c.skins || [])
+        .filter((sk) => sk.parentSkin === undefined) // exclude chroma variants (no splash art)
+        .map((sk) => ({
+          id: sk.id,
+          name: sk.name === 'default' ? c.name : sk.name,
+          num: sk.num,
+          image: `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${c.id}_${sk.num}.jpg`,
+        })),
       tips: c.allytips || [],
       enemytips: c.enemytips || [],
     }
